@@ -1,0 +1,51 @@
+version: '3.1'
+services:
+  idp_ciba:
+    build:
+      context: app
+    ports:
+    - '20000:20000'
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=go_ciba
+      - DB_PASSWORD=123
+      - DB_SCHEMA=go_ciba
+      - FCM_SERVER_KEY=
+    networks:
+      - 'backend'
+
+  fe:
+    build: fe
+    ports:
+      - '3000:3000'
+    volumes:
+    - './fe:/app'
+    environment:
+      - REACT_APP_API_KEY=
+      - REACT_APP_AUTH_DOMAIN=
+      - REACT_APP_PROJECT_ID=
+      - REACT_APP_STORAGE_BUCKET=
+      - REACT_APP_MESSAGING_SENDER_ID=
+      - REACT_APP_APP_ID=
+    networks:
+      - 'backend'
+
+  db:
+    build:
+      context: db
+    ports:
+    - '5432:5432'
+    volumes:
+      - /tmp/pgdata_gociba:/pgdata
+    restart: always
+    environment:
+      - POSTGRES_USER=go_ciba
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=go_ciba
+      - PGDATA=/pgdata
+    networks:
+      - 'backend'
+
+networks:
+  backend:

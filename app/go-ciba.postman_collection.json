@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "b3bce4b7-447e-45d3-89c1-31e406fb1964",
+		"name": "go-ciba",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{go_ciba_client_secret}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{go_ciba_client_id}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "login_hint",
+							"value": "{{go_ciba_login_hint}}",
+							"type": "text"
+						},
+						{
+							"key": "requested_expiry",
+							"value": "300",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:20000/auth",
+					"host": [
+						"localhost"
+					],
+					"port": "20000",
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{go_ciba_client_secret}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{go_ciba_client_id}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "urn:openid:params:grant-type:ciba",
+							"type": "text"
+						},
+						{
+							"key": "auth_req_id",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:20000/token",
+					"host": [
+						"localhost"
+					],
+					"port": "20000",
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Give Consent",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "auth_req_id",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "consented",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:20000/consent",
+					"host": [
+						"localhost"
+					],
+					"port": "20000",
+					"path": [
+						"consent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Protected Resource",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{go_ciba_access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:20000/protected",
+					"host": [
+						"localhost"
+					],
+					"port": "20000",
+					"path": [
+						"protected"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "go_ciba_client_id",
+			"value": "2a8c10ed-ca2d-42c6-830a-062b379f5e28"
+		},
+		{
+			"key": "go_ciba_client_secret",
+			"value": "cb56645e-a250-4bc9-a716-107347929391"
+		},
+		{
+			"key": "go_ciba_login_hint",
+			"value": "133d0f1e-0256-4616-989c-fa569c217355"
+		},
+		{
+			"key": "go_ciba_access_token",
+			"value": ""
+		}
+	]
+}
